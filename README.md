@@ -59,7 +59,7 @@ As imagens são capturadas da aplicação em execução por `npm run screenshots
 | Frontend | Vue 3.5, TypeScript, Vite 7, Pinia, Vue Router, ECharts, Tailwind CSS 4 |
 | Backend | Python 3.11+, FastAPI, Pydantic v2, SQLAlchemy 2, Alembic |
 | Banco | PostgreSQL 16 (local: 18 também suportado) |
-| Dados | Python, pandas/python-dateutil, JSONL/CSV, agregação diária |
+| Dados | Python, python-dateutil, JSONL/CSV, agregação diária |
 | Testes | Pytest + httpx/TestClient · Vitest + Vue Test Utils |
 | Qualidade | Ruff, ESLint, vue-tsc, GitHub Actions |
 | Infra | Docker Compose, Nginx, healthchecks |
