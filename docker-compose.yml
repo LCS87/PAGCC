@@ -1,0 +1,87 @@
+name: pagcc
+
+services:
+  db:
+    container_name: pagcc-db
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-clinic}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-clinic}
+      POSTGRES_DB: ${POSTGRES_DB:-clinic_analytics}
+      TZ: America/Fortaleza
+    volumes:
+      - pagcc-pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-clinic} -d ${POSTGRES_DB:-clinic_analytics}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  backend:
+    container_name: pagcc-backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-clinic}:${POSTGRES_PASSWORD:-clinic}@pagcc-db:5432/${POSTGRES_DB:-clinic_analytics}
+      JWT_SECRET: ${JWT_SECRET:-pagcc-dev-secret-change-me}
+      JWT_ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-480}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-Clinic@2026}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      CLINIC_TIMEZONE: ${CLINIC_TIMEZONE:-America/Fortaleza}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173}
+      ETL_SEED: ${ETL_SEED:-42}
+      ETL_ANCHOR_DATE: ${ETL_ANCHOR_DATE:-}
+      ETL_HISTORY_MONTHS: ${ETL_HISTORY_MONTHS:-18}
+      ETL_FUTURE_DAYS: ${ETL_FUTURE_DAYS:-14}
+      RUN_PIPELINE: ${RUN_PIPELINE:-1}
+    volumes:
+      - pagcc-raw:/app/data/raw
+      - pagcc-staging:/app/data/staging
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 300s
+
+  frontend:
+    container_name: pagcc-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ""
+        VITE_CLINIC_TIMEZONE: ${CLINIC_TIMEZONE:-America/Fortaleza}
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/healthz || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  pagcc-pgdata:
+    name: pagcc-pgdata
+  pagcc-raw:
+    name: pagcc-raw
+  pagcc-staging:
+    name: pagcc-staging

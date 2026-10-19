@@ -1,0 +1,21 @@
+# Dependências e artefatos locais
+.venv/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.ruff_cache/
+frontend/node_modules/
+frontend/dist/
+data/raw/
+data/staging/
+data/exports/
+data/**/*.jsonl
+data/**/*.csv
+.pgdata/
+.git/
+.gitignore
+.env
+.env.*
+!/.env.example
+*.log
+docs/screenshots/

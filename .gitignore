@@ -1,0 +1,45 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Node / frontend ---
+node_modules/
+frontend/dist/
+frontend/coverage/
+*.local
+
+# --- Ambiente e segredos ---
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+frontend/.env.*
+
+# --- Dados gerados (reproduzíveis a partir da semente) ---
+data/raw/*
+!data/raw/.gitkeep
+data/staging/*
+!data/staging/.gitkeep
+data/exports/*
+!data/exports/.gitkeep
+
+# --- Banco local portátil usado em desenvolvimento ---
+.pgdata/
+*.sqlite3
+*.db
+
+# --- Ferramentas / SO ---
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
