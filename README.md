@@ -89,6 +89,18 @@ As imagens são capturadas da aplicação em execução por `npm run screenshots
 
 Detalhes em [docs/architecture.md](docs/architecture.md).
 
+## Documentação
+
+| Documento | Conteúdo |
+| --- | --- |
+| [Arquitetura](docs/architecture.md) | Componentes, fluxo de requisição e modelo analítico |
+| [Métricas](docs/metrics.md) | Fórmulas, denominadores e regras de inclusão |
+| [Dicionário de dados](docs/data-dictionary.md) | Tabelas, colunas, enums e regras de qualidade |
+| [Glossário](docs/glossary.md) | Termos de domínio, status e papéis |
+| [UX](docs/ux.md) | Princípios, identidade visual, estados e acessibilidade |
+| [Roteiro de demo](docs/demo-script.md) | Apresentação guiada em ~10 minutos |
+| [ADRs](docs/decisions/) | Decisões arquiteturais e trade-offs |
+
 ## Execução rápida com Docker
 
 Pré-requisitos: Docker Desktop (ou Docker Engine + Compose) em execução.
