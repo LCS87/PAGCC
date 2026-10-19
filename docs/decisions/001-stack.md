@@ -23,15 +23,3 @@ Adotar **Vue 3 + TypeScript + Vite** no frontend, **FastAPI + Pydantic + SQLAlch
   para o MVP.
 - Uma stack coesa permite profundidade: testes, migrações, CI e documentação de verdade.
 
-## Consequências
-
-- O portfólio não demonstra Java; a decisão consciente foi priorizar profundidade.
-- O pipeline e a API compartilham modelos e configuração, reduzindo duplicação.
-- Uma futura API Java exigiria definir a fronteira com os jobs Python, sem duplicar regras.
-
-## Alternativas descartadas
-
-- **Spring Boot:** válido para backend corporativo, mas aumentaria o tempo de entrega e separaria
-  o processamento de dados em outro serviço.
-- **Next.js:** renderização no servidor não é necessária para um dashboard autenticado; Vue/Vite
-  é suficiente e mais simples de operar localmente.
